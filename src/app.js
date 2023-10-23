@@ -1,5 +1,20 @@
 
 import express from "express";
+//conectando o arquivo da base de dados
+import conectaNaDatabase from "./config/dbConnect.js";
+
+//criando uma conexao
+const conexao = await conectaNaDatabase();
+
+//evento de erro caso haja erro na conexao 
+conexao.on("erro", (erro) => {
+  console.error("Erro de conexao", erro);
+})
+
+//evento para validar conexao
+conexao.once("open" , () => {
+  console.log("Conexao com o banco feita com sucesso.")
+})
 
 const app = express();
 
@@ -61,4 +76,6 @@ app.delete("/livros/:id", (req, res) => {
 })
 
 export default app;
+
+
 
