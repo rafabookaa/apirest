@@ -1,11 +1,8 @@
 
 import express from "express";
-
-//conectando o arquivo da base de dados
 import conectaNaDatabase from "./config/dbConnect.js";
+import routes from "./routes/index.js"
 
-//importando o arquivo livros
-import livro from "../models/livro.js"
 
 //criando uma conexao
 const conexao = await conectaNaDatabase();
@@ -22,19 +19,11 @@ conexao.once("open" , () => {
 
 const app = express();
 
-//convertendo a string recebida no post em json
-app.use(express.json());
-
 //criando o get, com status 200 e enviando para a pagina http
 app.get("/", (req, res) => {
   res.status(200).send("Curso de Node.js");
 });
 
-//consultando livros contidos no mongodb
-app.get("/livros", async (req, res) => {
-  const listaLivros = await livro.find({});
-  res.status(220).json(listaLivros);
-});
 
 //get para procurar um livro especifico pelo ID
 app.get("/livros/:id", (req, res) => {
