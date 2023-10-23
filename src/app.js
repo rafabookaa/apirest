@@ -1,7 +1,11 @@
 
 import express from "express";
+
 //conectando o arquivo da base de dados
 import conectaNaDatabase from "./config/dbConnect.js";
+
+//importando o arquivo livros
+import livro from "../models/livro.js"
 
 //criando uma conexao
 const conexao = await conectaNaDatabase();
@@ -21,32 +25,15 @@ const app = express();
 //convertendo a string recebida no post em json
 app.use(express.json());
 
-const livros = [
-  {
-    id: 1,
-    titulo: "O Senhor dos Anéis"
-  },
-  {
-    id: 2,
-    titulo: "O Hobbit"
-  }
-]
-
-//função para retornar se existe o ID que foi buscado
-function buscaLivro (id) {
-  return livros.findIndex(livro => {
-    return livro.id === Number(id)
-  })
-}
-
 //criando o get, com status 200 e enviando para a pagina http
 app.get("/", (req, res) => {
   res.status(200).send("Curso de Node.js");
 });
 
-//transdo a resposta do array livros em json
-app.get("/livros", (req, res) => {
-  res.status(220).json(livros)
+//consultando livros contidos no mongodb
+app.get("/livros", async (req, res) => {
+  const listaLivros = await livro.find({});
+  res.status(220).json(listaLivros);
 });
 
 //get para procurar um livro especifico pelo ID
