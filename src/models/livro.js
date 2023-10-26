@@ -1,5 +1,6 @@
 //importando mongoose
 import mongoose from "mongoose";
+import { autorSchema } from "./Autor.js";
 
 //montando esquema de como os dados serão organizados no DB
 const livroSchema = new mongoose.Schema(
@@ -9,6 +10,7 @@ const livroSchema = new mongoose.Schema(
     editora: { type: String },
     preco: { type: Number },
     pagina: { type: Number },
+    autor: autorSchema
   },
   { versionKey: false }
 );
